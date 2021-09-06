@@ -51,6 +51,7 @@ const player = {
     console.log(`Playing ${song.title} from ${song.album} by ${song.artist} | ${convertDuration(song.duration)}.`);
   },
 }
+// converts duration to minutes 
 const convertDuration = (duration) =>{
   let min = Math.floor(duration / 60);
   let sec = duration % 60;
@@ -64,6 +65,7 @@ const convertDuration = (duration) =>{
 
   return min+':'+sec
 }
+
 function playSong(id) {
   for(let song of player.songs){
     if(song.id === id){
@@ -74,7 +76,12 @@ function playSong(id) {
 }
 
 function removeSong(id) {
-  player.splice(songs[id],1);
+  for(let song of player.songs){
+    if(song.id === id){
+     return player.songs.splice(song,1);
+    }
+  }
+  throw new Error("No such ID");
 }
 
 function addSong(title, album, artist, duration, id) {
