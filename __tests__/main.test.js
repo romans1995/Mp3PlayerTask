@@ -85,7 +85,7 @@ describe('Player Tests', () => {
     expect(() => playSong(mockNonExistentSongId)).toThrow()
   })
 
-  it.only('removeSong should remove the song from player', () => {
+  it('removeSong should remove the song from player', () => {
     removeSong(mockSong1.id)
     expect(player.songs).toEqual([mockSong2, mockSong4])
   })

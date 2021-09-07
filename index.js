@@ -45,7 +45,7 @@ const player = {
   ],
   playlists: [
     { id: 1, name: 'Metal', songs: [1, 7, 4] },
-    { id: 5, name: 'Israeli', songs: [4, 5] },
+    { id: 5, name: 'Israeli', songs: [2, 5] },
   ],
   playSong(song) {
     console.log(`Playing ${song.title} from ${song.album} by ${song.artist} | ${convertDuration(song.duration)}.`);
@@ -76,12 +76,21 @@ function playSong(id) {
 }
 
 function removeSong(id) {
-  for(let song of player.songs){
-    if(song.id === id){
-     return player.songs.splice(song,1);
-    }
+  const foundSongId = player.songs.findIndex(currSong => currSong.id === id);
+
+  if (foundSongId === -1) {
+   throw err;
   }
-  throw new Error("No such ID");
+  // Delete the song from the song list
+  player.songs.splice(foundSongId, 1);
+  
+  for (let currPlaylist of player.playlists) {
+   
+  foundSongIndex = currPlaylist.songs.indexOf(id);
+  if (foundSongIndex !== -1) {
+   currPlaylist.songs.splice(foundSongIndex, 1);
+        }
+    }
 }
 
 function addSong(title, album, artist, duration, id) {
