@@ -73,7 +73,7 @@ describe('Player Tests', () => {
     jest.clearAllMocks()
   })
 
-  it('playSong should console.log in the correct format', () => {
+  it.only('playSong should console.log in the correct format', () => {
     const spy = jest.spyOn(console, 'log')
     playSong(mockSong1.id)
     expect(spy).toHaveBeenCalledWith(
@@ -81,45 +81,45 @@ describe('Player Tests', () => {
     )
   })
 
-  it('playSong should throw for non-existent ID', () => {
+  it.only('playSong should throw for non-existent ID', () => {
     expect(() => playSong(mockNonExistentSongId)).toThrow()
   })
 
-  it('removeSong should remove the song from player', () => {
+  it.only('removeSong should remove the song from player', () => {
     removeSong(mockSong1.id)
     expect(player.songs).toEqual([mockSong2, mockSong4])
   })
 
-  it('removeSong should remove the song from all playlists', () => {
+  it.only('removeSong should remove the song from all playlists', () => {
     removeSong(mockSong1.id)
     expect(player.playlists[0].songs).toEqual([mockSong2.id])
   })
 
-  it('removeSong should throw for non-existent ID', () => {
+  it.only('removeSong should throw for non-existent ID', () => {
     expect(() => removeSong(mockNonExistentSongId)).toThrow()
   })
 
-  it('addSong should add a new song to the player', () => {
+  it.only('addSong should add a new song to the player', () => {
     addSong(...mockSong3Details)
     expect(player.songs).toEqual([...mockPlayer.songs, mockSong3])
   })
 
-  it('addSong should generate a new unique ID when it is not supplied', () => {
+  it.only('addSong should generate a new unique ID when it is not supplied', () => {
     const newSongId = addSong(...mockSong3Details.slice(0, -1))
     expect(newSongId).toBeDefined()
     expect(mockPlayer.songs.map(song => song.id).includes(newSongId)).toBe(false)
   })
 
-  it('addSong should throw for an ID that is taken', () => {
+  it.only('addSong should throw for an ID that is taken', () => {
     expect(() => addSong(...mockSong3Details.slice(0, -1), mockSong1.id)).toThrow()
   })
 
-  it('removePlaylist should remove a playlist from the player', () => {
+  it.only('removePlaylist should remove a playlist from the player', () => {
     removePlaylist(mockPlaylist1.id)
     expect(player.playlists.length).toBe(0)
   })
 
-  it('removePlaylist should throw for non-existent ID', () => {
+  it.only('removePlaylist should throw for non-existent ID', () => {
     expect(() => removePlaylist(mockNonExistentPlaylistId)).toThrow()
   })
 

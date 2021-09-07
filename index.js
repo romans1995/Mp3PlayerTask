@@ -95,7 +95,7 @@ const unique = [...new Set(arr.map(item => item.id))];
 const uniqId = (arr) => {
     let newId = Math.floor(Math.random() * 100);
     console.log(newId);
-    if(unique.indexOf(newId) === -1){
+    if (unique.indexOf(newId) === -1){
     return newId;
   }
 }
@@ -104,12 +104,18 @@ function addSong(title, album, artist, duration, id = uniqId()) {
       throw new Error("there is such ID");
     }else{
       duration = convertDuration(duration);
-      return arr.push({id ,title, album, artist, duration})
+      return  arr.push({id ,title, album, artist, duration})
     }
 }
 
 function removePlaylist(id) {
-  // your code here
+  const foundSongId = player.playlists.findIndex(currSong => currSong.id === id);
+  if (foundSongId === -1) {
+   throw err; 
+  }else{
+  // // Delete the song from the song list
+  player.playlists.splice(foundSongId, 1);
+  }
 }
 
 function createPlaylist(name, id) {
