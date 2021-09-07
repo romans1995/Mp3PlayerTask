@@ -79,22 +79,33 @@ function removeSong(id) {
   const foundSongId = player.songs.findIndex(currSong => currSong.id === id);
 
   if (foundSongId === -1) {
-   throw err;
+   throw err; 
   }
   // Delete the song from the song list
   player.songs.splice(foundSongId, 1);
-  
   for (let currPlaylist of player.playlists) {
-   
   foundSongIndex = currPlaylist.songs.indexOf(id);
   if (foundSongIndex !== -1) {
    currPlaylist.songs.splice(foundSongIndex, 1);
         }
     }
 }
-
-function addSong(title, album, artist, duration, id) {
-  // your code here
+let arr = player.songs;
+const unique = [...new Set(arr.map(item => item.id))];
+const uniqId = (arr) => {
+    let newId = Math.floor(Math.random() * 100);
+    console.log(newId);
+    if(unique.indexOf(newId) === -1){
+    return newId;
+  }
+}
+function addSong(title, album, artist, duration, id = uniqId()) {
+    if (unique.indexOf(id) !== -1){
+      throw new Error("there is such ID");
+    }else{
+      duration = convertDuration(duration);
+      return arr.push({id ,title, album, artist, duration})
+    }
 }
 
 function removePlaylist(id) {
