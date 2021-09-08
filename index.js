@@ -49,16 +49,22 @@ const player = {
   ],
 
  playSong(song){
-    console.log(`Playing ${song.title} from ${song.album} by ${song.artist} | ${convertDuration(song.duration)}.`);
+    console.log(`Playing ${song.title} from ${song.album} by ${song.artist} | ${convertDuration1(song.duration)}.`);
   }
 }
 // converts duration to minutes 
-const convertDuration = (duration) =>{
-  let min = String(Math.floor(duration / 60));
+const convertDuration1 = (duration) =>{
+ let min = String(Math.floor(duration / 60));
   let sec = String(duration % 60);
   min < 10 ? min = "0"+ String(min):min
   sec < 10 ? sec = "0"+ String(sec):sec
   return min+':'+sec
+}
+const convertDuration = (duration) =>{
+  duration= duration.split(":");
+  duration= parseInt(duration[0] *60) + parseInt(duration[1]);
+  return duration;
+ 
 }
 
 function playSong(id) {
@@ -86,37 +92,34 @@ function removeSong(id) {
     }
 }
 // addSong
-let arr = player.songs;
-const unique = [...new Set(arr.map(item => item.id))];
-
-  // adds all ids in to one array 
-  function isIdExist (id){
-      if (unique.indexOf(id) === -1){
-        return false;
-       }else{
-           return true;
-       }
-    }
-       
-  const uniqId = () => {
-const newId = Math.floor(Math.random() * 100);
-      if (unique.indexOf(newId) === -1){
-      return newId;
-    }else{
-        return uniqId();
-    }
+// Does an ID exist in the songs
+function isIdExist (arr, id)
+{
+  for (let i=0; i<arr.length; i++){
+    if (arr[i].id === id)
+      return true;
   }
-  
-  function addSong(title, album, artist, duration, id = uniqId()) {
-    duration = convertDuration(duration)
-    if (isIdExist(id)){
-      throw 'this id already exist!';
-    }else{  
-        let newSong = {id,title, album, artist, duration};
-        player.songs.push(newSong);
-        return id;
-      }
-    }
+  return false;
+}
+// find max ID in song
+function maxID (arr) {
+  let max = 0;
+  for (let i = 0; i < arr.length; i++) 
+  {
+    if (arr[i].id > max) 
+      max = arr[i].id;
+  }
+  return max;
+}
+function addSong(title, album, artist, duration, id = maxID(player.songs)+1) {
+  if (isIdExist(player.songs, id)){
+    throw 'this id already exist!';
+  }
+  duration = convertDuration(duration);
+  let newSong = {id,title,album,artist,duration};
+  player.songs.push(newSong);
+  return id;
+}
   
 // remove the playList 
 function removePlaylist(id) {
@@ -140,7 +143,8 @@ function createPlaylist(name,id) {
         }
 }
 function playPlaylist(id) {
-  // your code here
+  const uniquePlayList = [...new Set(player.playlists.map(item => item.id))];
+  return uniquePlayList;
 }
 
 function editPlaylist(playlistId, songId) {
