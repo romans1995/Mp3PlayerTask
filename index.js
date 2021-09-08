@@ -47,22 +47,17 @@ const player = {
     { id: 1, name: 'Metal', songs: [1, 7, 4] },
     { id: 5, name: 'Israeli', songs: [2, 5] },
   ],
-  playSong(song) {
+
+ playSong(song){
     console.log(`Playing ${song.title} from ${song.album} by ${song.artist} | ${convertDuration(song.duration)}.`);
-  },
+  }
 }
 // converts duration to minutes 
 const convertDuration = (duration) =>{
-  let min = Math.floor(duration / 60);
-  let sec = duration % 60;
-
-  if(min < 10){
-    min = "0" + String(min);
-  }
-  if (sec < 10) {
-    sec = "0" + String(sec);
-  }
-
+  let min = String(Math.floor(duration / 60));
+  let sec = String(duration % 60);
+  min < 10 ? min = "0"+ String(min):min
+  sec < 10 ? sec = "0"+ String(sec):sec
   return min+':'+sec
 }
 
@@ -90,24 +85,40 @@ function removeSong(id) {
         }
     }
 }
+// addSong
 let arr = player.songs;
 const unique = [...new Set(arr.map(item => item.id))];
-const uniqId = (arr) => {
-    let newId = Math.floor(Math.random() * 100);
-    console.log(newId);
-    if (unique.indexOf(newId) === -1){
-    return newId;
-  }
-}
-function addSong(title, album, artist, duration, id = uniqId()) {
-    if (unique.indexOf(id) !== -1){
-      throw new Error("there is such ID");
-    }else{
-      duration = convertDuration(duration);
-      return  arr.push({id ,title, album, artist, duration})
-    }
-}
 
+  // adds all ids in to one array 
+  function isIdExist (id){
+      if (unique.indexOf(id) === -1){
+        return false;
+       }else{
+           return true;
+       }
+    }
+       
+  const uniqId = () => {
+const newId = Math.floor(Math.random() * 100);
+      if (unique.indexOf(newId) === -1){
+      return newId;
+    }else{
+        return uniqId();
+    }
+  }
+  
+  function addSong(title, album, artist, duration, id = uniqId()) {
+    duration = convertDuration(duration)
+    if (isIdExist(id)){
+      throw 'this id already exist!';
+    }else{  
+        let newSong = {id,title, album, artist, duration};
+        player.songs.push(newSong);
+        return id;
+      }
+    }
+  
+// remove the playList 
 function removePlaylist(id) {
   const foundSongId = player.playlists.findIndex(currSong => currSong.id === id);
   if (foundSongId === -1) {
@@ -118,10 +129,16 @@ function removePlaylist(id) {
   }
 }
 
-function createPlaylist(name, id) {
-  // your code here
+function createPlaylist(name,id) {
+  const uniquePlayList = [...new Set(player.playlists.map(item => item.id))];
+  if (uniquePlayList.indexOf(id) !== -1 ){
+      throw new Error("there is such ID");
+        }else{
+          let newSong = {id:id = uniqId(id) ,name}
+          player.playlists.push(newSong);
+          return id;
+        }
 }
-
 function playPlaylist(id) {
   // your code here
 }
