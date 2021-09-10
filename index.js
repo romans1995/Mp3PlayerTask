@@ -219,7 +219,39 @@ function playlistDuration(id) {
 }
 
 function searchByQuery(query) {
-  // your code here
+  query = query.toLowerCase();
+
+  const returnValue = {songs: [], playlists: []};
+
+  returnValue.songs = player.songs.filter(currSong => {
+    let isFound = false;
+
+    Object.values(currSong).forEach(currValue => {
+      if ((typeof currValue) === 'string' && currValue.toLowerCase().match(query)) {
+        isFound = true;
+      }
+    });
+
+    return isFound;
+  });
+
+  returnValue.playlists = player.playlists.filter(currPlaylist => {
+    return currPlaylist.name.toLowerCase().match(query);
+  })
+
+  returnValue.songs.sort(compare);
+
+  return returnValue;
+}
+
+function compare (a, b) {
+  if ( a.title < b.title ){
+    return -1;
+  }
+  if ( a.title > b.title ){
+    return 1;
+  }
+  return 0;
 }
 
 function searchByDuration(duration) {
