@@ -181,7 +181,34 @@ function playPlaylist(id) {
 }
 // edit playlist
 function editPlaylist(playlistId, songId) {
-  // your code here
+  const indexofplaylist = player.playlists.findIndex(
+    curr => curr.id === playlistId
+  )
+
+  if (indexofplaylist === -1) {
+    throw 'there is no such playlist ID';
+  }
+//  removes playlist if dosent exist 
+  if (player.playlists[indexofplaylist].songs.length === 0) {
+    removePlaylist(playlistId);
+  }
+
+  const indexofSong = player.playlists[indexofplaylist].songs.findIndex((curr) => curr === songId);
+
+  if (indexofSong === -1) {
+    if (!player.songs.find(song => song.id === songId)) {
+      throw "Song does not exist";
+    }
+
+    player.playlists[indexofplaylist].songs.push(songId);
+   
+  } else {
+    player.playlists[indexofplaylist].songs.splice(indexofSong, 1);
+
+    if (player.playlists[indexofplaylist].songs.length === 0) {
+      removePlaylist(playlistId);
+    }
+  }
 }
 
 function playlistDuration(id) {
