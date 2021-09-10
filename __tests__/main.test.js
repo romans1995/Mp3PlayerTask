@@ -141,17 +141,17 @@ describe('Player Tests', () => {
     expect(() => createPlaylist(mockPlaylist2.name, mockPlaylist1.id)).toThrow()
   })
 
-  it('playPlaylist should play all songs inside it', () => {
+  it.only('playPlaylist should play all songs inside it', () => {
     const spy = jest.spyOn(console, 'log')
     playPlaylist(mockPlaylist1.id)
     expect(spy).toHaveBeenCalledTimes(mockPlaylist1.songs.length)
   })
 
-  it('playPlaylist should throw for non-existent ID', () => {
+  it.only('playPlaylist should throw for non-existent ID', () => {
     expect(() => playPlaylist(mockNonExistentPlaylistId)).toThrow()
   })
 
-  it('editPlaylist should add a song to a playlist when it is not initially there', () => {
+  it.only('editPlaylist should add a song to a playlist when it is not initially there', () => {
     editPlaylist(mockPlaylist1.id, mockSong4.id)
     expect(player.playlists[0].songs).toEqual([
       ...mockPlaylist1.songs,
@@ -159,55 +159,55 @@ describe('Player Tests', () => {
     ])
   })
 
-  it('editPlaylist should remove a song from a playlist when it was initially there', () => {
+  it.only('editPlaylist should remove a song from a playlist when it was initially there', () => {
     editPlaylist(mockPlaylist1.id, mockSong1.id)
     expect(player.playlists[0].songs).toEqual([mockSong2.id])
   })
 
-  it('editPlaylist should throw for non-existent playlist ID', () => {
+  it.only('editPlaylist should throw for non-existent playlist ID', () => {
     expect(() => editPlaylist(mockPlaylist2.id, mockSong1.id)).toThrow()
   })
 
-  it('editPlaylist should throw for non-existent song ID', () => {
+  it.only('editPlaylist should throw for non-existent song ID', () => {
     expect(() => editPlaylist(mockPlaylist1.id, mockSong3.id)).toThrow()
   })
 
-  it('editPlaylist should remove a playlist if it has been emptied of songs', () => {
+  it.only('editPlaylist should remove a playlist if it has been emptied of songs', () => {
     mockPlaylist1.songs.forEach((song) => editPlaylist(mockPlaylist1.id, song))
     expect(player.playlists.length).toBe(0)
   })
 
-  it('playlistDuration should return the sum of durations of all songs inside it', () => {
+  it.only('playlistDuration should return the sum of durations of all songs inside it', () => {
     expect(playlistDuration(mockPlaylist1.id)).toBe(mockPlaylist1Duration)
   })
 
-  it('searchByQuery should be case-insensitive', () => {
+  it.only('searchByQuery should be case-insensitive', () => {
     expect(searchByQuery('t')).toEqual({
       songs: [mockSong1, mockSong4],
       playlists: [],
     })
   })
 
-  it('searchByQuery should consider all song attributes, and sort results alphanumerically', () => {
+  it.only('searchByQuery should consider all song attributes, and sort results alphanumerically', () => {
     expect(searchByQuery('ll')).toEqual({
       songs: [mockSong2, mockSong1],
       playlists: [],
     })
   })
 
-  it('searchByQuery should find matching playlists', () => {
+  it.only('searchByQuery should find matching playlists', () => {
     expect(searchByQuery('Israeli')).toEqual({
       songs: [],
       playlists: [mockPlaylist1],
     })
   })
 
-  it('searchByDuration should find the closest song', () => {
+  it.only('searchByDuration should find the closest song', () => {
     expect(searchByDuration('04:23')).toEqual(mockSong1)
     expect(searchByDuration('04:27')).toEqual(mockSong2)
   })
 
-  it('searchByDuration should find the closest playlist', () => {
+  it.only('searchByDuration should find the closest playlist', () => {
     expect(searchByDuration('10:00')).toEqual(mockPlaylist1)
   })
 })
