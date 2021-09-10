@@ -255,7 +255,26 @@ function compare (a, b) {
 }
 
 function searchByDuration(duration) {
-  // your code here
+  duration = convertDuration(duration);
+
+  let min = Math.abs(duration - player.songs[0].duration);
+  let minItem = player.songs[0];
+
+  for (let currSongIndex = 0; currSongIndex < player.songs.length; currSongIndex++) {
+    if (Math.abs(duration - player.songs[currSongIndex].duration) < min) {
+      min = Math.abs(duration - player.songs[currSongIndex].duration); // updates min duration
+      minItem = player.songs[currSongIndex]; // saves full song
+    }
+  }
+
+  for (let currPlaylistIndex = 0; currPlaylistIndex < player.playlists.length; currPlaylistIndex++) {
+    if (Math.abs(duration - playlistDuration(player.playlists[currPlaylistIndex].id)) < min) {
+      min = Math.abs(duration - playlistDuration(player.playlists[currPlaylistIndex].id));
+      minItem = player.playlists[currPlaylistIndex];
+    }
+  }
+
+  return minItem;
 }
 
 module.exports = {
