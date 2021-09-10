@@ -169,9 +169,17 @@ function createPlaylist(name, id = maxID2(arr2)) {
 }
 
 function playPlaylist(id) {
-  // your code here
-}
+  const foundPlaylist = player.playlists.find(currSong => currSong.id === id);
 
+  if (!foundPlaylist) {
+    throw 'No such playlist';
+  }
+
+  for (let currSongIndex = 0; currSongIndex < foundPlaylist.songs.length; currSongIndex++) {
+    playSong(foundPlaylist.songs[currSongIndex]);
+  }
+}
+// edit playlist
 function editPlaylist(playlistId, songId) {
   // your code here
 }
