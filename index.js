@@ -124,7 +124,6 @@ function addSong(title, album, artist, duration, id = maxID(arr) + 1) {
     throw 'this id already exist!'
 
   } else {
-    
     duration = convertDuration(duration);
     let newSong = { id, title, album, artist, duration }
     player.songs.push(newSong);
@@ -212,7 +211,11 @@ function editPlaylist(playlistId, songId) {
 }
 
 function playlistDuration(id) {
-  // your code here
+  const foundPlaylist = player.playlists.find(currPlaylist => currPlaylist.id === id);
+
+  // Reduce function to sum all the song durations, by finding each of them, and then adding to the sum
+  return foundPlaylist.songs.reduce((sum, currSong) => 
+            sum + player.songs.find(song => song.id === currSong).duration, 0);
 }
 
 function searchByQuery(query) {
