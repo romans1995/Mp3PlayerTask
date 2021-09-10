@@ -238,7 +238,7 @@ function searchByQuery(query) {
   returnValue.playlists = player.playlists.filter(currPlaylist => {
     return currPlaylist.name.toLowerCase().match(query);
   })
-
+// sorting alphanumerically by comparing
   returnValue.songs.sort(compare);
 
   return returnValue;
@@ -256,7 +256,7 @@ function compare (a, b) {
 
 function searchByDuration(duration) {
   duration = convertDuration(duration);
-
+// starting from the first song and comapreing him to others after that
   let min = Math.abs(duration - player.songs[0].duration);
   let minItem = player.songs[0];
 
@@ -266,7 +266,7 @@ function searchByDuration(duration) {
       minItem = player.songs[currSongIndex]; // saves full song
     }
   }
-
+// comapring song duration to playlists duration to make sure that its the corect playlist 
   for (let currPlaylistIndex = 0; currPlaylistIndex < player.playlists.length; currPlaylistIndex++) {
     if (Math.abs(duration - playlistDuration(player.playlists[currPlaylistIndex].id)) < min) {
       min = Math.abs(duration - playlistDuration(player.playlists[currPlaylistIndex].id));
