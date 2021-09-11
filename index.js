@@ -238,7 +238,7 @@ function searchByQuery(query) {
   returnValue.playlists = player.playlists.filter(currPlaylist => {
     return currPlaylist.name.toLowerCase().match(query);
   })
-// sorting alphanumerically by comparing
+// Sorting alphanumerically by using compare function
   returnValue.songs.sort(compare);
 
   return returnValue;
